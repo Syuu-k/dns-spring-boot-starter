@@ -5,11 +5,33 @@
   <parent>
     <groupId>io.github.gaoshq7</groupId>
     <artifactId>parent</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
 
+  <groupId>io.github.syuu-k</groupId>
   <artifactId>dns-spring-boot-starter</artifactId>
   <version>1.0.0-SNAPSHOT</version>
+
+  <scm>
+    <connection>scm:git:git://github.com/Syuu-k/${artifactId}.git</connection>
+    <developerConnection>scm:git:git@github.com:Syuu-k/${artifactId}.git</developerConnection>
+    <url>https://github.com/Syuu-k/${artifactId}</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>syuu-k</id>
+      <name>谦谦伪君子</name>
+      <roles>
+        <role>Project Manager</role>
+        <role>Developer</role>
+      </roles>
+      <email>zjl9664@outlook.com</email>
+      <url>https://github.com/Syuu-k</url>
+    </developer>
+  </developers>
+
 
   <dependencies>
 
@@ -36,5 +58,80 @@
     </dependency>
 
   </dependencies>
+
+
+  <profiles>
+    <profile>
+      <id>release-1</id>
+      <properties>
+        <maven.javadoc.skip>false</maven.javadoc.skip>
+      </properties>
+      <build>
+        <plugins>
+          <!-- Source -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>3.1.0</version>
+            <inherited>true</inherited>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <excludeResources>true</excludeResources>
+              <useDefaultExcludes>true</useDefaultExcludes>
+            </configuration>
+          </plugin>
+          <!-- Javadoc -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+                <configuration>
+                  <doclint>none</doclint>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- GPG -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <configuration>
+              <executable>/opt/homebrew/bin/gpg</executable>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- sonatype -->
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>0.7.0</version>
+            <extensions>true</extensions>
+            <configuration>
+              <publishingServerId>sonatype-syuu</publishingServerId>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>
